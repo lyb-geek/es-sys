@@ -88,7 +88,7 @@
   <select id="selectAll"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user
+    from t_user order by create_time desc
   </select>
   
   <delete id="deleteByIds" parameterType="java.lang.Long">

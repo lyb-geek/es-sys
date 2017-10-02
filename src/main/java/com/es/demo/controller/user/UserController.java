@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,16 +58,25 @@ public class UserController {
 		return new ResponseResult<>(userId);
 	}
 
-	@RequestMapping(value = "/deleteUser")
+	@PostMapping(value = "/deleteUser")
 	@ResponseBody
-	public ResponseResult<Integer> deleteUser(@RequestParam("ids") Long[] ids) {
-		System.out.println(Arrays.asList(ids));
-
-		int result = userService.deleteByUserIds(ids);
+	public ResponseResult<Integer> deleteUser(@RequestParam(value = "userIds[]") Long[] userIds) {
+		System.out.println(Arrays.asList(userIds));
+		int result = userService.deleteByUserIds(userIds);
 
 		System.out.println("result:" + result);
 
-		return new ResponseResult<Integer>(result);
+		return new ResponseResult<Integer>(0);
+	}
+
+	@RequestMapping(value = "/getUserById")
+	@ResponseBody
+	public ResponseResult<User> getUserById(Long id) {
+		System.out.println(id);
+		User user = userService.selectByPrimaryKey(id);
+
+		return new ResponseResult<>(user);
+
 	}
 
 }
