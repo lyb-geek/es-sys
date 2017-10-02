@@ -1,0 +1,116 @@
+@charset "utf-8";
+.startLever img{
+ width: 10px;
+}
+/* css图标 */
+.css-ico-caret{ display: inline-block; width: 0; height: 0;margin-left: 2px; vertical-align: middle; border-top:5px solid; border-right:5px solid transparent; border-left:5px solid transparent;}
+
+/* 图标 */
+.fetchMore{
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        background-image: url(../images/ico-yp-search.png);
+        background-repeat: no-repeat;
+        background-position: center;  
+    }
+.ico-refresh{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-refresh.png) no-repeat; cursor: pointer;}
+.ico-phone{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-phone.png) no-repeat; cursor: pointer;}
+.ico-phone:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-phone-hover.png) no-repeat;}
+.disable .ico-phone, .disable .ico-phone:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-phone-gray.png) no-repeat;}
+.ico-baidu, .disable .ico-baidu:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-baidu.png) no-repeat; cursor: pointer;}
+.ico-baidu:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-baidu-hover.png) no-repeat;}
+.ico-homepage, .disable .ico-homepage:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-homepage.png) no-repeat center; cursor: pointer;}
+.ico-homepage:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-homepage-hover.png) no-repeat center;}
+.ico-record{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-record.png) no-repeat; cursor: pointer;}
+.ico-record_clue{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-record.png) no-repeat;}
+
+.ico-sort-asc{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-sort-asc.png) no-repeat center; cursor: pointer;}
+.ico-sort-asc-active{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-sort-asc-active.png) no-repeat center; cursor: pointer;}
+.ico-sort-desc{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-sort-desc.png) no-repeat center; cursor: pointer;}
+.ico-sort-desc-active{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-sort-desc-active.png) no-repeat center; cursor: pointer;}
+
+.ico-zoomin{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-zoomin.png) no-repeat center; cursor: pointer;}
+.ico-zoomin:hover{background: url(../images/ico-zoomin-hover.png) no-repeat center;}
+.ico-zoomout{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-zoomout.png) no-repeat center; cursor: pointer;}
+.ico-zoomout:hover{background: url(../images/ico-zoomout-hover.png) no-repeat center;}
+
+.disable .ico-baidu:hover, .disable .ico-homepage:hover, .disable .ico-phone{ cursor: default;}
+.ico-baidu, .disable .ico-baidu:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-baidu.png) no-repeat; cursor: pointer;}
+.ico-baidu:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-baidu-hover.png) no-repeat;}
+.ico-homepage, .disable .ico-homepage:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-homepage.png) no-repeat center; cursor: pointer;}
+.ico-homepage:hover{display:inline-block; vertical-align: middle; width:18px; height:18px; background: url(../images/ico-homepage-hover.png) no-repeat center;}
+
+/* 下拉 */
+.ui-dropdown{position: relative; display:inline-block; margin-right:15px;}
+.ui-dropdown>span{position: relative; z-index:11; display:inline-block; border:1px solid #fafafa; border-bottom:0; padding:0 10px; line-height:38px; cursor: pointer; }
+.ui-dropdown-active{ box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15); }
+.ui-dropdown-active>span{ background-color:#fafafa; border:1px solid #e4e4e4; border-bottom:0; color:#3ca7ed;}
+.ui-dropdown-active .css-ico-caret{ display: inline-block; width: 0; height: 0; color:#434343;margin-left: 2px; vertical-align: middle; border-top: 0; border-bottom:5px solid; border-right:5px solid transparent; border-left:5px solid transparent;}
+.ui-dropdown .dropcontent{position: absolute; z-index:10; top:38px; left:0; padding:10px; background-color:#fafafa; border:1px solid #e4e4e4; box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15); display:none;}
+
+.ui-dropdown-btn{ position: relative; margin:0; font-size:14px; }
+.ui-dropdown-btn>span{height:auto; line-height:1; padding:6px 10px 6px 0; color:#353f5e; border:1px solid #fff; /*background-color:#fff; border-radius:4px;*/}
+.ui-dropdown-btn .css-ico-caret{border-top: 4px solid; border-right: 4px solid transparent; border-left: 4px solid transparent; margin-left:4px;}
+.ui-dropdown-btn:hover>span, .dropdown-btn-active>span{ color:#1e50e7;}
+.ui-dropdown-btn:hover .css-ico-caret, .dropdown-btn-active .css-ico-caret{border-top: 0; border-bottom: 4px solid; border-right: 4px solid transparent; border-left: 4px solid transparent;}
+.ui-dropdown-btn .dropcontent{top:24px; white-space: nowrap; margin-left:-152px; z-index: 12; padding:0px 30px; background-color: transparent; border:0; box-shadow: 0px 2px 5px 0px rgba(239, 244, 250, 0.004); margin-bottom: 60px;}
+.dropdown-btn-active .dropcontent{ z-index:120;}
+
+
+.ui-dropdown-list{position: relative; margin:0; background-color: #fafbfc;}
+.ui-dropdown-list>span{ display: inline-block; width:210px; height:auto; line-height:1.6; padding:8px; border:1px solid #e4e4e4; cursor: pointer; margin-top:-1px; }
+.ui-dropdown-list:hover>span{background-color:#eff4fa; color:#1e50e7;}
+.ui-dropdown-list>span .ico-dropdown{display:inline-block; vertical-align: middle; height:9px; padding:0 10px; background: url(../images/dropdown-list-down.png) no-repeat center;}
+.ui-dropdown-list .droplist{position: absolute; /*top:-1px; right:209px;*/ margin-top:-1px; width:100%; z-index:13; background-color:#eff4fa; border: 1px solid #e4e4e4; text-align:left; display:none; margin-bottom: 60px;}
+.ui-dropdown-list .droplist li{ display:block; line-height:32px; padding: 0 10px; cursor: pointer;}
+.ui-dropdown-list .droplist li:hover{background-color:#fdf5da;}
+
+.ui-droplist .droplist{ position: absolute; background-color:#fafafa; border:1px solid #e4e4e4; box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15); text-align:left; display:none;}
+
+.ui-tree>li>label{display:inline-block; padding:5px 10px; cursor: pointer;}
+.ui-tree>li:hover{background: url(../images/ui-tree-node-bg.png) repeat-x;}
+.ui-tree .ui-tree label{ margin-left:16px;}
+.ui-tree .ui-tree .ui-tree label{ margin-left:32px;}
+.ui-tree .ui-tree .ui-tree .ui-tree label{ margin-left:48px;}
+
+/* ui-recordcontrol */
+.ico-record-stop{display:inline-block; vertical-align: middle; width:20px; height:20px; background: url(../images/ico-record-stop.png) no-repeat; cursor: pointer;}
+.ico-record-play{display:inline-block; vertical-align: middle; width:20px; height:20px; background: url(../images/ico-record-play.png) no-repeat; cursor: pointer;}
+.ico-record-pause{display:inline-block; vertical-align: middle; width:20px; height:20px; background: url(../images/ico-record-pause.png) no-repeat; cursor: pointer;}
+
+.ui-recordcontrol{width:116px; text-align:left;}
+.ui-recordcontrol .playprogress{display:inline-block; width:100%; height:4px; border-radius:15px; background-color:#f0f0f0; box-shadow: inset 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15); }
+.ui-recordcontrol .playprogress .progress{display:inline-block; width:100%; height:4px; border-radius:15px; background-color:#3ca7ed; }
+
+.recordcontrol-play{ color:#3ca7ed }
+
+.echart{ height:438px; overflow:hidden; margin-bottom:15px; }
+.echart .table{ display:none;}
+.echart .table th, .echart .table td{text-align:left;}
+.echart-zoom{ position:absolute; z-index:13; width:100%; height:auto; overflow:auto; left:0;}
+.echart-zoom .table{display:table;}
+
+/* 删除屏蔽 */
+.ui-tooltips{ position:absolute; z-index:110; right:90px; top:0; margin-top:-19px; padding:20px; background-color:#fafbfc; box-shadow: 0px 2px 4px 0px rgba(51, 62, 80, 0.3); border:1px solid #e4e8f2; border-radius:4px; color:#353f5e; width:266px; display:none;}
+.ui-tooltips .triangle-border { position:absolute; top:0; margin-top:16px; overflow:hidden; width:0; height:0; border-width:10px; border-style:solid dashed dashed dashed; }
+.ui-tooltips .tb-border {right:-20px; border-color:transparent transparent transparent #dadada; }
+.ui-tooltips .tb-background {right:-19px; border-color:transparent transparent transparent #fff; }
+
+.ui-tag{ display:inline-block; padding:0 10px; background-color:#fff; border:1px solid #dce0e8; font-size:12px; margin-right:10px; border-radius:2px; height:28px; line-height:26px; cursor: pointer;}
+.tag-active{ border:1px solid #1e50e7; color:#1e50e7;}
+.ui-mask{position: fixed; top:0; bottom:0; left:0; right:0; z-index: 666; background-color: #000; opacity: 0.3; filter:alpha(opacity=30); display: none;}
+.ui-mask0{position: fixed; top:0; bottom:0; left:0; right:0; z-index: 100; background-color: #fff; opacity: 0; filter:alpha(opacity=0); display: none;}
+
+table.main tr#header td {
+	padding: 15px 10px;
+}
+tr.markinfo{
+line-height: 1;
+}
+tr.markinfo td {
+border-top: 0px;
+padding-bottom: 8px;
+padding-left: 0px;
+padding-top:0px;
+}

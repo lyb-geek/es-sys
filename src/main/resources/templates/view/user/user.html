@@ -1,0 +1,58 @@
+<#include "/common/common.html"> <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<base id="base" href="${base}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>user</title>
+
+<link rel="stylesheet" href="${base}/static/common/css/iview.css">
+<link rel="stylesheet" href="${base}/static/common/css/style.css">
+
+<script type="text/javascript" src="${base}/static/common/js/jquery3.js"></script>
+<script type="text/javascript" src="${base}/static/common/js/vue.js"></script>
+<script type="text/javascript"
+	src="${base}/static/common/js/iview.min.js"></script>
+<script type="text/javascript"
+	src="${base}/static/common/js/jquery.slimscroll.js"></script>
+<script type="text/javascript"
+	src="${base}/static/common/js/jquery.slidereveal.js"></script>
+<script type="text/javascript" src="${base}/static/common/js/common.js"></script>
+<script type="text/javascript"
+	src="${base}/static/common/js/jquery.form.js"></script>
+
+
+<!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+	<div id="userVM" class="container">
+		<div class="grids">
+			<div class="g6">
+				<span class="btn" @click="addUserDialog=true"> <i class="iconfont icon-tianjiakehu1"></i> 新增</span>&nbsp;&nbsp;&nbsp;<span class="btn" @click="addUserDialog=true"> <i class="iconfont icon-tianjiakehu1" @click="toBatchDel"></i> 删除</span>
+			</div>
+			<div class="g6 t-right">
+				<div class="ui-searchbar">
+					<div class="search search-focus">
+						<input id="getUserSearch" v-model="keyword"
+							type="text" class="input" placeholder="请输入用户名称"
+							@keydown.13="getUserSearch"> <i
+							v-show="keyword!=''" class="iconfont icon-shanchu1"
+							@click="cleanSearchInput"></i> <i class="iconfont icon-shousuo"
+							@click="getUserSearch"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<#include "/user/userContent.html"> 
+	</div>
+</body>
+<script type="text/javascript" src="${base}/static/user/js/user.js"></script>
+</html>

@@ -1,0 +1,71 @@
+<div class="grids ui-wrap">
+    <div class="g12" style="position: relative;">
+        <div class="table-responsive">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="main">
+            <tbody>
+              <tr id="header" class="bg">
+              	<td scope="col" class="col-check">
+              		<label class="ui-checkbox" :class="{'ui-checkbox-checked': isCheckAll, 'ui-checkbox-indeterminate': indeterminate}"><input v-model="isCheckAll" type="checkbox" @change="checkAll"/></label>
+              	</td>
+                <td scope="col" class="p-l-0">用户名</td>
+                <td scope="col">密码</td>
+                <td scope="col">创建时间</td>
+                <td vscope="col" style="width:180px;">操作</td>
+              </tr>
+              <tr v-for="(item, index) in pageList"  :key="item.id">
+              	<td :class="[clicked == index ? 'col-check slide-active' : 'col-check']"><span class="ico-slide-active"></span><label class="ui-checkbox"><input type="checkbox" :value="item.id"  name="userCheckbox" @change="changeCheck"/></label></td>
+                <td class="p-l-0" id="userName" :title="item.userName">{{item.userName}}</td>
+                <td id="password">{{item.password}}</td>
+                <td>{{item.createTime}}</td>
+                <td>
+                  <a href="javascript:void(0)" @click="toSaveUserDialog(item.id)">编辑</a>&nbsp;&nbsp;<a href="javascript:void(0)" @click="toDeleteUserDialog(item.id)">删除</a>
+                </td>
+              </tr>
+              <tr v-show="allCount==0">
+              	<td colspan="7"><div class="ui-search-null t-center"><p><img src="${base}/static/common/images/ico-search-null.png"></p><p>暂无数据</p></div></td>
+              </tr>
+            </tbody>  
+        </table>
+        </div>
+	</div>
+</div>
+
+<div v-show="allCount>2" class="grids">
+    <div id="page" class="g12 t-right">     
+	     <Page :total="allCount" :current="pageNumber" :page-size="pageSize" @on-change="pageChange"></Page>
+    </div>
+</div>
+
+
+
+<Modal v-model="addUserDialog" title="新增用户" :mask-closable="false" :closable="false" :transfer="false">
+	<div class="field-group">
+	<div class="field">
+		<input v-model="username" placeholder="输入用户名" type="text"/>
+	</div>
+	</div>
+	
+	<div class="field-group">
+	<div class="field">
+		<input v-model="password" placeholder="输入密码" type="password"/>
+	</div>
+	</div>
+	
+	<div slot="footer">
+		<button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="addUserDialog=false;"><span>取消</span></button> 
+		<button type="button" class="ivu-btn ivu-btn-primary ivu-btn-large" @click="saveUser"><span>提交</span></button>
+    </div>
+</Modal>
+
+
+ <Modal v-model="showDelUserModel" title="提示" :mask-closable="false" :closable="false" :transfer="false">
+	<div class="field-groups" >
+	<div class="field-group"><div class="field"><span>确定要删除吗？</span>
+					</div></div>
+	</div>
+	<div slot="footer">
+	  		<button type="button" class="ivu-btn ivu-btn-text ivu-btn-large"  @click="showDelUserModel=false"> <span>取消</span></button> 
+	  		<button type="button" class="ivu-btn ivu-btn-primary ivu-btn-large" @click="deleteUser"> <span>删除</span></button>
+       </div>
+</Modal>
+
