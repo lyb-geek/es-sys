@@ -2,21 +2,30 @@ package com.es.demo.model.user;
 
 import java.util.Date;
 
+import com.es.demo.anntation.Document;
+import com.es.demo.anntation.FieldParam;
+import com.es.demo.anntation.Id;
+import com.es.demo.enumtype.FieldType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+@Document(indexName = "es-sys", type = "User")
 public class User {
+	@FieldParam(store = true, type = FieldType.keyword)
+	@Id
 	private Long id;
 
+	@FieldParam(store = true, type = FieldType.text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
 	private String userName;
 
+	@FieldParam(store = true, type = FieldType.keyword)
 	private String password;
 
+	@FieldParam(store = true, type = FieldType.Date)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
+	@FieldParam(store = true, type = FieldType.Date)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	// @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	public Long getId() {
