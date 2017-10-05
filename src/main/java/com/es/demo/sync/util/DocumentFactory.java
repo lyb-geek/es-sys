@@ -1,0 +1,140 @@
+package com.es.demo.sync.util;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.FastDateFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
+
+import com.es.demo.anntation.Id;
+import com.es.demo.anntation.Module;
+import com.es.demo.anntation.ModuleMethod;
+import com.es.demo.common.util.ClassUtil;
+import com.es.demo.model.document.BulkDocument;
+import com.es.demo.model.document.Index;
+import com.es.demo.model.search.Query;
+import com.es.demo.model.search.QueryCountRequest;
+import com.es.demo.service.SearchService;
+
+@Component
+public class DocumentFactory {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	FastDateFormat fastDateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
+	@Autowired
+	private SearchService searchService;
+
+	public List<List<BulkDocument>> getBulkDocumentsList(String packageName) throws Exception {
+		List<List<BulkDocument>> list = new ArrayList<>();
+		List<Class<?>> classes = ClassUtil.getClasses(packageName);
+		for (Class clz : classes) {
+			boolean isMoudleAnnatation = clz.isAnnotationPresent(Module.class);
+			if (isMoudleAnnatation) {
+				Module module = (Module) clz.getAnnotation(Module.class);
+				String indexName = module.indexName();
+				String mappingType = module.type();
+				boolean isExistDocumentInEs = this.isExistDocumentInEs(indexName, mappingType);
+				Method[] methods = clz.getDeclaredMethods();
+				for (Method method : methods) {
+					boolean isMethodAnnatation = method.isAnnotationPresent(ModuleMethod.class);
+					if (isMethodAnnatation) {
+						// 方法一
+						// ModuleMethod moduleMethod = method.getAnnotation(ModuleMethod.class);
+						// method.invoke(clz, moduleMethod.argsType());
+						// 方法二
+						// ReflectionUtils.invokeMethod(arg0, arg1, arg2)
+						Class<?>[] parameterTypes = method.getParameterTypes();
+						for (Class parameterType : parameterTypes) {
+							Object params = Class.forName(parameterType.getName());
+							if (params instanceof Map) {
+								if (isExistDocumentInEs) {
+									((Map) params).put("updateTime", fastDateFormat.format(new Date()));
+								}
+
+								Object resultList = ReflectionUtils.invokeMethod(method, clz, params);
+
+								if (resultList instanceof List) {
+									List<BulkDocument> bulkDocuments = new ArrayList<>();
+									for (Object result : (List) resultList) {
+										Class resultClz = result.getClass();
+										Field[] fields = resultClz.getDeclaredFields();
+										for (Field field : fields) {
+											boolean isIdAnnatation = field.isAnnotationPresent(Id.class);
+											if (isIdAnnatation) {
+												String methodName = "get" + StringUtils.capitalize(field.getName());
+												Method idMethod = ReflectionUtils.findMethod(resultClz, methodName);
+												Object id = ReflectionUtils.invokeMethod(idMethod, resultClz);
+												BulkDocument bulkDocument = this.getBulkDocument(result, mappingType,
+														id.toString());
+												bulkDocuments.add(bulkDocument);
+											}
+										}
+
+									}
+
+									list.add(bulkDocuments);
+
+								}
+
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return list;
+
+	}
+
+	private boolean isExistDocumentInEs(String indexName, String mappingType) {
+		boolean isExistDocument = false;
+		QueryCountRequest queryCountRequest = new QueryCountRequest();
+		queryCountRequest.setIndex(indexName);
+		queryCountRequest.setType(mappingType);
+		Map<String, Object> matchAll = new HashMap<>();
+		Query query = new Query();
+		query.setMatchAll(matchAll);
+		queryCountRequest.setQuery(query);
+		int count = searchService.getDocumentCount(queryCountRequest);
+		if (count > 0) {
+			isExistDocument = true;
+		}
+		return isExistDocument;
+	}
+
+	private BulkDocument getBulkDocument(Object object, String type, String id) {
+		BulkDocument bulkDocument = new BulkDocument();
+		bulkDocument.setContent(object);
+
+		Index bulkDocumentIndex = new Index();
+		bulkDocumentIndex.setIndex(null);
+		bulkDocumentIndex.setType(type);
+		bulkDocumentIndex.setId(id);
+
+		bulkDocument.setIndex(bulkDocumentIndex);
+
+		return bulkDocument;
+	}
+
+	public static void main(String[] args) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		Class clz = map.getClass();
+		Object object = clz.forName(clz.getName());
+		if (object instanceof HashMap) {
+			System.out.println("yes");
+		} else {
+			System.out.println("no");
+		}
+	}
+
+}

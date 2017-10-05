@@ -21,11 +21,11 @@ public class User {
 	private String password;
 
 	@FieldParam(store = true, type = FieldType.Date)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
 	@FieldParam(store = true, type = FieldType.Date)
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	public Long getId() {

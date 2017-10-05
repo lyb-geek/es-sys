@@ -85,10 +85,14 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <select id="selectAll"  resultMap="BaseResultMap">
+  <select id="selectByParams"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user order by create_time desc
+    from t_user where 1 = 1
+    <if test="updateTime != null">
+       and DATE_FORMAT(update_time,'%Y-%m-%d') = #{updateTime}
+    </if>
+    order by create_time desc
   </select>
   
   <delete id="deleteByIds" parameterType="java.lang.Long">

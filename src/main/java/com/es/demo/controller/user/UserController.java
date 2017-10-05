@@ -1,7 +1,9 @@
 package com.es.demo.controller.user;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,8 @@ public class UserController {
 	public ResponseResult<PageInfo<User>> getUserPageList(RequestParams requestParams) {
 		System.out.println(requestParams);
 		PageHelper.startPage(requestParams.getPageNumber(), requestParams.getPageSize());
-		List<User> list = userService.getList();
+		Map<String, Object> params = new HashMap<>();
+		List<User> list = userService.getList(params);
 		PageInfo<User> pageInfo = new PageInfo<>(list);
 		long total = pageInfo.getTotal();
 		System.out.println("total-->" + total);

@@ -1,6 +1,7 @@
 package com.es.demo.mapper.user;
 
 import java.util.List;
+import java.util.Map;
 
 import com.es.demo.model.user.User;
 
@@ -17,7 +18,7 @@ public interface UserMapper {
 
 	int updateByPrimaryKey(User record);
 
-	List<User> selectAll();
-
 	int deleteByIds(Long[] ids);
+
+	List<User> selectByParams(Map<String, Object> params);
 }

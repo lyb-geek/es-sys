@@ -40,7 +40,6 @@ public class EsSysInitalizr implements BeanPostProcessor {
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		Class clz = bean.getClass();
 		boolean isDocumentAnnatation = clz.isAnnotationPresent(Document.class);
-
 		if (isDocumentAnnatation) {
 			Document document = (Document) clz.getAnnotation(Document.class);
 			Field[] fields = clz.getDeclaredFields();

@@ -1,6 +1,7 @@
 package com.es.demo.service.user;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -38,8 +39,8 @@ public class UserService {
 		return userDao.updateByPrimaryKeySelective(record);
 	}
 
-	public List<User> getList() {
-		return userDao.getList();
+	public List<User> getList(Map<String, Object> params) {
+		return userDao.getList(params);
 	}
 
 	public int deleteByUserIds(Long[] ids) {

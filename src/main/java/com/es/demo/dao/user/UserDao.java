@@ -1,14 +1,18 @@
 package com.es.demo.dao.user;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.es.demo.anntation.Module;
+import com.es.demo.anntation.ModuleMethod;
 import com.es.demo.mapper.user.UserMapper;
 import com.es.demo.model.user.User;
 
 @Repository
+@Module(indexName = "es-sys", type = "User")
 public class UserDao {
 	@Autowired
 	private UserMapper userMapper;
@@ -33,8 +37,9 @@ public class UserDao {
 		return userMapper.updateByPrimaryKey(record);
 	}
 
-	public List<User> getList() {
-		return userMapper.selectAll();
+	@ModuleMethod(methodName = "getList", argsType = Map.class)
+	public List<User> getList(Map<String, Object> params) {
+		return userMapper.selectByParams(params);
 	}
 
 	public int deleteByUserIds(Long[] ids) {
