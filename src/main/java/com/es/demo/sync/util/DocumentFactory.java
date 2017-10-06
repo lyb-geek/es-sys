@@ -20,6 +20,7 @@ import com.es.demo.anntation.Id;
 import com.es.demo.anntation.Module;
 import com.es.demo.anntation.ModuleMethod;
 import com.es.demo.common.util.ClassUtil;
+import com.es.demo.common.util.SpringContextHolder;
 import com.es.demo.model.document.BulkDocument;
 import com.es.demo.model.document.Index;
 import com.es.demo.model.search.Query;
@@ -55,12 +56,15 @@ public class DocumentFactory {
 						Class<?>[] parameterTypes = method.getParameterTypes();
 						for (Class parameterType : parameterTypes) {
 							Object params = Class.forName(parameterType.getName());
-							if (params instanceof Map) {
+							if (params.toString().indexOf("Map") > 0) {
+								Map<String, Object> paramsMap = new HashMap<>();
 								if (isExistDocumentInEs) {
-									((Map) params).put("updateTime", fastDateFormat.format(new Date()));
+									paramsMap.put("updateTime", fastDateFormat.format(new Date()));
 								}
 
-								Object resultList = ReflectionUtils.invokeMethod(method, clz, params);
+								Object target = SpringContextHolder.getBean(clz);
+								// Object target = clz.newInstance();
+								Object resultList = ReflectionUtils.invokeMethod(method, target, paramsMap);
 
 								if (resultList instanceof List) {
 									List<BulkDocument> bulkDocuments = new ArrayList<>();
@@ -72,9 +76,9 @@ public class DocumentFactory {
 											if (isIdAnnatation) {
 												String methodName = "get" + StringUtils.capitalize(field.getName());
 												Method idMethod = ReflectionUtils.findMethod(resultClz, methodName);
-												Object id = ReflectionUtils.invokeMethod(idMethod, resultClz);
-												BulkDocument bulkDocument = this.getBulkDocument(result, mappingType,
-														id.toString());
+												Object id = ReflectionUtils.invokeMethod(idMethod, result);
+												BulkDocument bulkDocument = this.getBulkDocument(result, indexName,
+														mappingType, id.toString());
 												bulkDocuments.add(bulkDocument);
 											}
 										}
@@ -112,12 +116,12 @@ public class DocumentFactory {
 		return isExistDocument;
 	}
 
-	private BulkDocument getBulkDocument(Object object, String type, String id) {
+	private BulkDocument getBulkDocument(Object object, String indexName, String type, String id) {
 		BulkDocument bulkDocument = new BulkDocument();
 		bulkDocument.setContent(object);
 
 		Index bulkDocumentIndex = new Index();
-		bulkDocumentIndex.setIndex(null);
+		bulkDocumentIndex.setIndex(indexName);
 		bulkDocumentIndex.setType(type);
 		bulkDocumentIndex.setId(id);
 
@@ -129,8 +133,8 @@ public class DocumentFactory {
 	public static void main(String[] args) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		Class clz = map.getClass();
-		Object object = clz.forName(clz.getName());
-		if (object instanceof HashMap) {
+
+		if (clz.getName().indexOf("Map") > 0) {
 			System.out.println("yes");
 		} else {
 			System.out.println("no");

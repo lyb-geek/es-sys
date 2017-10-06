@@ -35,9 +35,4 @@ public class Index {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "Index [index=" + index + ", type=" + type + ", id=" + id + "]";
-	}
-
 }

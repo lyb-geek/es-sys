@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -39,7 +40,7 @@ public class SyncDbToEsTask {
 
 	private volatile boolean isFinish = true;
 
-	// @Scheduled(cron = "${sync.db.to.es.task.time}")
+	@Scheduled(cron = "${sync.db.to.es.task.time}")
 	public void run() {
 		if (isFinish) {
 			isFinish = false;

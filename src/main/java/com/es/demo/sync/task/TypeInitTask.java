@@ -19,7 +19,6 @@ import com.alibaba.fastjson.JSON;
 import com.es.demo.anntation.Document;
 import com.es.demo.anntation.FieldParam;
 import com.es.demo.anntation.Id;
-import com.es.demo.enumtype.FieldType;
 import com.es.demo.enumtype.RestMethodEnum;
 import com.es.demo.model.type.MappingType;
 import com.es.demo.model.type.PrimaryKey;
@@ -109,9 +108,9 @@ public class TypeInitTask implements Runnable {
 				}
 				propertyMap.put("store", fieldAnnatation.store());
 
-				if (FieldType.Date == fieldAnnatation.type()) {
-					propertyMap.put("format", fieldAnnatation.format());
-				}
+				// if (FieldType.Date == fieldAnnatation.type()) {
+				// propertyMap.put("format", fieldAnnatation.format());
+				// }
 				properties.put(field.getName(), propertyMap);
 			}
 		}

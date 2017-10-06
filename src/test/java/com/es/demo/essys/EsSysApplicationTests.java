@@ -60,7 +60,7 @@ public class EsSysApplicationTests {
 		// userService.insertSelective(user3);
 
 		User user4 = new User();
-		user4.setUserName("普通会员");
+		user4.setUserName("VIP会员");
 		user4.setPassword("123456");
 		userService.insertSelective(user4);
 
