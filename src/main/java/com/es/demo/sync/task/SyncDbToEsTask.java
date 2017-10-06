@@ -12,10 +12,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.es.demo.enumtype.YesOrNot;
 import com.es.demo.model.document.BulkDocument;
 import com.es.demo.service.DocumentService;
 import com.es.demo.sync.util.DocumentFactory;
@@ -27,6 +29,9 @@ public class SyncDbToEsTask {
 	private DocumentFactory documentFactory;
 	@Autowired
 	private DocumentService documentService;
+
+	@Value("${sync.db.to.es.task.run}")
+	private String isRun;
 
 	ExecutorService threadPool = Executors.newFixedThreadPool(10, new ThreadFactory() {
 		private final AtomicInteger mCount = new AtomicInteger(1);
@@ -40,39 +45,43 @@ public class SyncDbToEsTask {
 
 	private volatile boolean isFinish = true;
 
+	@SuppressWarnings("rawtypes")
 	@Scheduled(cron = "${sync.db.to.es.task.time}")
 	public void run() {
-		if (isFinish) {
-			isFinish = false;
-			logger.info(this.getClass().getSimpleName() + "-->同步数据库到ES开始执行。。。");
-			try {
-				List<List<BulkDocument>> bulkDocumentsList = documentFactory.getBulkDocumentsList("com.es.demo.dao");
-				List<Future> futures = new ArrayList<>();
+		if (YesOrNot.YES.getCode().equals(isRun)) {
+			if (isFinish) {
+				isFinish = false;
+				logger.info(this.getClass().getSimpleName() + "-->同步数据库到ES开始执行。。。");
+				try {
+					List<List<BulkDocument>> bulkDocumentsList = documentFactory
+							.getBulkDocumentsList("com.es.demo.dao");
+					List<Future> futures = new ArrayList<>();
 
-				if (!CollectionUtils.isEmpty(bulkDocumentsList)) {
-					for (List<BulkDocument> list : bulkDocumentsList) {
-						futures.add(threadPool.submit(new SyncDocuemntTask(documentService, list)));
+					if (!CollectionUtils.isEmpty(bulkDocumentsList)) {
+						for (List<BulkDocument> list : bulkDocumentsList) {
+							futures.add(threadPool.submit(new SyncDocuemntTask(documentService, list)));
+						}
 					}
+
+					for (Future future : futures) {
+						try {
+							future.get();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					isFinish = true;
+					logger.info(this.getClass().getSimpleName() + "-->同步数据库到ES结束执行。。。");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 
-				for (Future future : futures) {
-					try {
-						future.get();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				isFinish = true;
-				logger.info(this.getClass().getSimpleName() + "-->同步数据库到ES结束执行。。。");
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-
 		}
 
 	}

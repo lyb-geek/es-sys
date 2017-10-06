@@ -33,4 +33,10 @@ public class Delete {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Delete [index=" + index + ", type=" + type + ", id=" + id + "]";
+	}
+
 }

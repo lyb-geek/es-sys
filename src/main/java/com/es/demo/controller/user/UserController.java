@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.es.demo.common.model.RequestParams;
 import com.es.demo.common.model.ResponseResult;
+import com.es.demo.common.util.SearchParamUtil;
+import com.es.demo.model.search.SearchParam;
+import com.es.demo.model.search.SearchResponse;
 import com.es.demo.model.user.User;
+import com.es.demo.service.SearchService;
 import com.es.demo.service.user.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,6 +29,8 @@ import com.github.pagehelper.PageInfo;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SearchService searchService;
 
 	@GetMapping(value = "/user")
 	public String toCustomerPage() {
@@ -79,6 +85,24 @@ public class UserController {
 		User user = userService.selectByPrimaryKey(id);
 
 		return new ResponseResult<>(user);
+
+	}
+
+	@RequestMapping(value = "/getUserPageListByEs")
+	@ResponseBody
+	public ResponseResult<PageInfo<User>> getUserPageListByEs(RequestParams requestParams) {
+		System.out.println(requestParams);
+		SearchParam searchParam = SearchParamUtil.getInstance().getSearchParamWithSort(requestParams, User.class,
+				"createTime", SearchParamUtil.ORDER_DESC);
+		SearchResponse response = searchService.search(searchParam);
+		List<User> list = SearchParamUtil.getInstance().getEntityList(response, User.class);
+		PageInfo<User> pageInfo = new PageInfo<>(list);
+		Integer count = SearchParamUtil.getInstance().getTotalCount(response);
+		pageInfo.setTotal(count);
+		long total = pageInfo.getTotal();
+		System.out.println("total-->" + total);
+
+		return new ResponseResult<PageInfo<User>>(pageInfo);
 
 	}
 

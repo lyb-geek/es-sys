@@ -15,7 +15,8 @@ var userVM = new Vue({
 			indeterminate: false,
 			addUserDialog: false,
 			showDelUserModel: false,
-			ids:[]
+			ids:[],
+			showLoading: false
 		},
 		mounted: function(){
 			
@@ -30,7 +31,8 @@ var userVM = new Vue({
 				this.getUserSearch();
 			},
 			getUserSearch: function(){
-				
+				this.showLoading = true;
+				this.getUserPageList();
 			},
 			pageChange: function(newPage) {
 				this.pageNumber = newPage;
@@ -159,7 +161,7 @@ var userVM = new Vue({
 			},
 			getUserPageList:function(){
 				$.ajax({
-					url : "/user/getUserPageList",
+					url : "/user/getUserPageListByEs",
 					type : "POST",
 					dateType : "json",
 					data : {
@@ -172,9 +174,11 @@ var userVM = new Vue({
 							if(resultData.data){
 								userVM.pageList = resultData.data.list;
 								userVM.allCount = resultData.data.total;
+								userVM.pageNumber = 1;
 							}
 							
 						}
+						userVM.showLoading = false;
 						
 					}
 				});

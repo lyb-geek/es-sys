@@ -12,9 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.es.demo.EsSysApplication;
+import com.es.demo.anntation.Document;
+import com.es.demo.common.util.SearchParamUtil;
 import com.es.demo.model.document.BulkDocument;
 import com.es.demo.model.search.Query;
 import com.es.demo.model.search.QueryCountRequest;
+import com.es.demo.model.search.SearchParam;
+import com.es.demo.model.search.SearchResponse;
 import com.es.demo.model.user.User;
 import com.es.demo.service.SearchService;
 import com.es.demo.service.user.UserService;
@@ -60,9 +64,16 @@ public class EsSysApplicationTests {
 		// userService.insertSelective(user3);
 
 		User user4 = new User();
-		user4.setUserName("VIP会员");
+		user4.setUserName("aaa");
 		user4.setPassword("123456");
 		userService.insertSelective(user4);
+
+	}
+
+	@Test
+	public void testDelete() {
+		Long[] ids = new Long[] { 23L };
+		userService.deleteByUserIds(ids);
 
 	}
 
@@ -113,6 +124,25 @@ public class EsSysApplicationTests {
 			}
 
 		}
+	}
+
+	@Test
+	public void testSearch() {
+		SearchParam searchParam = new SearchParam();
+		searchParam.setPage(0);
+		searchParam.setSize(10);
+		Document document = User.class.getAnnotation(Document.class);
+		searchParam.setIndex(document.indexName());
+		searchParam.setType(document.type());
+		// searchParam.setQuery("1");
+		SearchResponse response = searchService.search(searchParam);
+
+		List<User> users = SearchParamUtil.getInstance().getEntityList(response, User.class);
+
+		for (User user : users) {
+			System.out.println(user);
+		}
+
 	}
 
 }

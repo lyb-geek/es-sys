@@ -10,8 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -22,6 +20,7 @@ import com.es.demo.anntation.ModuleMethod;
 import com.es.demo.common.util.ClassUtil;
 import com.es.demo.common.util.SpringContextHolder;
 import com.es.demo.model.document.BulkDocument;
+import com.es.demo.model.document.Delete;
 import com.es.demo.model.document.Index;
 import com.es.demo.model.search.Query;
 import com.es.demo.model.search.QueryCountRequest;
@@ -29,11 +28,11 @@ import com.es.demo.service.SearchService;
 
 @Component
 public class DocumentFactory {
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	FastDateFormat fastDateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
 	@Autowired
 	private SearchService searchService;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<List<BulkDocument>> getBulkDocumentsList(String packageName) throws Exception {
 		List<List<BulkDocument>> list = new ArrayList<>();
 		List<Class<?>> classes = ClassUtil.getClasses(packageName);
@@ -109,7 +108,7 @@ public class DocumentFactory {
 		Query query = new Query();
 		query.setMatchAll(matchAll);
 		queryCountRequest.setQuery(query);
-		int count = searchService.getDocumentCount(queryCountRequest);
+		Integer count = searchService.getDocumentCount(queryCountRequest);
 		if (count > 0) {
 			isExistDocument = true;
 		}
@@ -130,6 +129,17 @@ public class DocumentFactory {
 		return bulkDocument;
 	}
 
+	public BulkDocument getDeleteBulkDocument(String indexName, String type, String id) {
+		BulkDocument bulkDocument = new BulkDocument();
+		Delete delete = new Delete();
+		delete.setId(id);
+		delete.setIndex(indexName);
+		delete.setType(type);
+		bulkDocument.setDelete(delete);
+		return bulkDocument;
+	}
+
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		Class clz = map.getClass();

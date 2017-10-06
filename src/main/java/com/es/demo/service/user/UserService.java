@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.es.demo.anntation.Delete;
 import com.es.demo.dao.user.UserDao;
 import com.es.demo.model.user.User;
 
@@ -43,6 +44,7 @@ public class UserService {
 		return userDao.getList(params);
 	}
 
+	@Delete(methodName = "deleteByUserIds", indexName = "es-sys", type = "User")
 	public int deleteByUserIds(Long[] ids) {
 		return userDao.deleteByUserIds(ids);
 	}

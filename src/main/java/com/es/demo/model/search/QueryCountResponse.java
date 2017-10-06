@@ -3,15 +3,15 @@ package com.es.demo.model.search;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class QueryCountResponse {
-	private int count;
+	private Integer count;
 	@JSONField(name = "_shards")
 	private Object shards;
 
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

@@ -35,4 +35,9 @@ public class BulkDocument {
 		this.delete = delete;
 	}
 
+	@Override
+	public String toString() {
+		return "BulkDocument [index=" + index + ", delete=" + delete + ", content=" + content + "]";
+	}
+
 }

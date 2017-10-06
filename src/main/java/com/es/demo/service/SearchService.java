@@ -47,13 +47,14 @@ public class SearchService {
 	@Autowired
 	private RestClient restClient;
 
-	public Object search(SearchParam searchParam) {
+	public SearchResponse search(SearchParam searchParam) {
 		String endpoint = "/" + searchParam.getIndex() + "/" + searchParam.getType() + "/_search";
 
 		SearchRequest request = new SearchRequest();
 		// 设置分页
-		if (searchParam.getPage() >= 0 && searchParam.getSize() > 0) {
-			request.setFrom(searchParam.getPage() * searchParam.getSize());
+		if ((searchParam.getPage() != null && searchParam.getPage() >= 0)
+				&& (searchParam.getSize() != null && searchParam.getSize() > 0)) {
+			request.setFrom((searchParam.getPage() - 1) * searchParam.getSize());
 			request.setSize(searchParam.getSize());
 		}
 
@@ -63,6 +64,9 @@ public class SearchService {
 
 		// 设置过滤器查询bool
 		setFilter(query, searchParam);
+
+		// 如果查询条件都是空，则全查询
+		setMatchAll(query, searchParam);
 
 		// 设置group by
 		setGroupBy(request, searchParam);
@@ -299,6 +303,24 @@ public class SearchService {
 			}
 
 			query.setBool(bool);
+		}
+
+	}
+
+	/**
+	 * 查询所有
+	 * 
+	 * @param query
+	 * @param searchParam
+	 */
+	private void setMatchAll(Query query, SearchParam searchParam) {
+		// TODO Auto-generated method stub
+
+		if ((searchParam.getFilters() == null || searchParam.getFilters().size() == 0)
+				&& (searchParam.getQuery() == null || "".equals(searchParam.getQuery()))) {
+
+			Map<String, Object> matchAll = new HashMap<>();
+			query.setMatchAll(matchAll);
 		}
 
 	}

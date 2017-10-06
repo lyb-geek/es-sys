@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>es-sys</name>
-	<description>Demo project for Spring Boot</description>
+	<description>es-sys project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -111,10 +111,17 @@
 			<version>2.5</version>
 		</dependency>
 
+		<dependency>
+		    <groupId>commons-collections</groupId>
+		    <artifactId>commons-collections</artifactId>
+		</dependency>
+
+
+	
 	</dependencies>
 
 	<build>
-		<finalName>AustinSyncTask</finalName>
+		<finalName>es-sys</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>

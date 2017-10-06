@@ -2,7 +2,7 @@ package com.es.demo.enumtype;
 
 public enum FieldsEnum {
 
-	USER(new String[] { "userName^8" }, 1);
+	USER(new String[] { "userName^8" }, 1), TEST(new String[] { "userName^8", "id^1" }, 2);
 
 	private String[] fields;
 	private int flag;// 查询类型

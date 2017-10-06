@@ -51,6 +51,10 @@
 				</div>
 			</div>
 		</div>
+		<Spin fix v-show="showLoading">
+           <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+           <div>查询中...</div>
+         </Spin>
 		<#include "/user/userContent.html"> 
 	</div>
 </body>

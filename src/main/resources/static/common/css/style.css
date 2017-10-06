@@ -1179,4 +1179,17 @@ content:""; display: block; position: absolute; z-index:2; top:-12px; left:10px;
 
 .followup-record{position: relative; width:520px; margin:0 auto;}
 .followup-record-date{position: absolute; left:0; width:80px; margin-left: -100px; margin-top: 20px; font-weight:bold; font-size:18px; text-align:right;}
+ .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    .demo-spin-col{
+        height: 100px;
+        position: relative;
+        border: 1px solid #eee;
+    }
 

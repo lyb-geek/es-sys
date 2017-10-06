@@ -13,6 +13,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ClassUtil {
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws Exception {
 		List<Class<?>> classes = ClassUtil.getClasses("com.es.demo.service");
 		for (Class clas : classes) {
@@ -23,6 +24,7 @@ public class ClassUtil {
 	/**
 	 * 取得某个接口下所有实现这个接口的类
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<Class> getAllClassByInterface(Class c) {
 		List<Class> returnClassList = null;
 
